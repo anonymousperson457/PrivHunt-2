@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <cctype>
+#include <cstring>
 
 #include "cuda_runtime.h"
 #include "cuda.h"
@@ -672,15 +673,19 @@ int main(int argc, char* argv[])
 			PntOfs.y.NegModP();
 			PntToSolve = ec.AddPoints(PntToSolve, PntOfs);
 		}
-
+inline void toLowerHex(char* str) {
+    std::transform(str, str + strlen(str), str, ::tolower);
+        }
+		
 		char sx[100], sy[100];
-        gPubKey.x.GetHexStr(sx);
-        gPubKey.y.GetHexStr(sy);
-       std::transform(sy, sy + strlen(sy), sy, ::tolower);
-       printf("Solving public key\r\nX: %s\r\nY: %s\r\n", sx, sy);
-        gStart.GetHexStr(sx);
-        std::transform(sx, sx + strlen(sx), sx, ::tolower);
-        printf("Offset: %s\r\n", sx);
+		gPubKey.x.GetHexStr(sx);
+		gPubKey.y.GetHexStr(sy);
+		toLowerHex(sx);
+        toLowerHex(sy);
+		printf("Solving public key\r\nX: %s\r\nY: %s\r\n", sx, sy);
+		gStart.GetHexStr(sx);
+		toLowerHex(sx);
+		printf("Offset: %s\r\n", sx);
 
 		if (!SolvePoint(PntToSolve, gRange, gDP, &pk_found))
 		{
@@ -698,6 +703,7 @@ int main(int argc, char* argv[])
 		//happy end
 		char s[100];
 		pk_found.GetHexStr(s);
+		toLowerHex(s);
 		printf("\r\nPRIVATE KEY: %s\r\n\r\n", s);
 		FILE* fp = fopen("RESULTS.TXT", "a");
 		if (fp)
@@ -759,6 +765,3 @@ label_end:
 	free(pPntList2);
 	free(pPntList);
 }
-
-
-
