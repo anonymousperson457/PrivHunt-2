@@ -676,7 +676,8 @@ int main(int argc, char* argv[])
 inline void toLowerHex(char* str) {
     std::transform(str, str + strlen(str), str, ::tolower);
         }
-		
+		int main(int argc, char** argv) {
+			
 		char sx[100], sy[100];
 		gPubKey.x.GetHexStr(sx);
 		gPubKey.y.GetHexStr(sy);
@@ -711,6 +712,7 @@ inline void toLowerHex(char* str) {
 			fprintf(fp, "PRIVATE KEY: %s\n", s);
 			fclose(fp);
 		}
+	}
 		else //we cannot save the key, show error and wait forever so the key is displayed
 		{
 			printf("WARNING: Cannot save the key to RESULTS.TXT!\r\n");
@@ -765,3 +767,4 @@ label_end:
 	free(pPntList2);
 	free(pPntList);
 }
+
