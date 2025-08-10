@@ -6,6 +6,8 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <cctype>
 
 #include "cuda_runtime.h"
 #include "cuda.h"
@@ -678,11 +680,13 @@ int main(int argc, char* argv[])
 		}
 
 		char sx[100], sy[100];
-		gPubKey.x.GetHexStr(sx);
-		gPubKey.y.GetHexStr(sy);
-		printf("Solving public key\r\nX: %s\r\nY: %s\r\n", sx, sy);
-		gStart.GetHexStr(sx);
-		printf("Offset: %s\r\n", sx);
+        gPubKey.x.GetHexStr(sx);
+        gPubKey.y.GetHexStr(sy);
+       std::transform(sy, sy + strlen(sy), sy, ::tolower);
+       printf("Solving public key\r\nX: %s\r\nY: %s\r\n", sx, sy);
+        gStart.GetHexStr(sx);
+        std::transform(sx, sx + strlen(sx), sx, ::tolower);
+        printf("Offset: %s\r\n", sx);
 
 		if (!SolvePoint(PntToSolve, gRange, gDP, &pk_found))
 		{
@@ -761,4 +765,5 @@ label_end:
 	free(pPntList2);
 	free(pPntList);
 }
+
 
